@@ -4,7 +4,7 @@
 
     <p> asdasdf dgf sdgfsd gsfd gsfd gsdf g</p>
 
-    <a href="/todos">Todos</a>
+    <router-link to="/todos">Todos</router-link>
   </div>
 </template>
 
