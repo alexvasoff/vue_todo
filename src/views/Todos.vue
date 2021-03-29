@@ -3,14 +3,20 @@
     <h2>To do Application</h2>
     <router-link to="/">Home</router-link>
     <hr>
+    <select v-model="filter">
+      <option value="all">All</option>
+      <option value="completed">Completed</option>
+      <option value="not-completed">Not completed</option>
+
+    </select>
     <AddTodo
         v-on:add-todo="addTodo"
     />
     <hr>
     <Loader v-if="loading"/>
     <TodoList
-        v-else-if="todos.length"
-        v-bind:todos="todos"
+        v-else-if="filteredTodos.length"
+        v-bind:todos="filteredTodos"
         v-on:remove-todo="removeTodo"
     />
     <p v-else>No todos!</p>
@@ -31,7 +37,8 @@ export default {
         {id: 2, title: 'Купить колбасу', completed: false},
         {id: 3, title: 'Купить молоко', completed: false},
       ],
-      loading: true
+      loading: true,
+      filter: 'all'
     }
   },
   mounted() {
@@ -43,6 +50,20 @@ export default {
             this.loading = false
           }, 1000)
         })
+  },
+  computed: {
+    filteredTodos() {
+      if (this.filter === 'all') {
+        return this.todos
+      }
+      if (this.filter === 'completed') {
+        return this.todos.filter(t => t.completed)
+      }
+      if (this.filter === 'not-completed') {
+        return this.todos.filter(t => !t.completed)
+      }
+      else return 0
+    }
   },
   methods: {
     removeTodo(id) {
